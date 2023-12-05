@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
+
+declare const logToELK: any;
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-monitoring-app';
+
+  constructor(private zone: NgZone) {
+    this.zone.runOutsideAngular(() => {
+      setInterval(() => {
+        logToELK('Angular App Log Message');
+      }, 5000);
+    });
+  }
 }
